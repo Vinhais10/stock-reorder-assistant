@@ -52,9 +52,51 @@ Sales data comes from the \[UCI Machine Learning Repository's "Online Retail" da
 
 1\. Clone this repository
 
-2\. Install dependencies:
+2\. Install dependencies: `pip install pandas openpyxl`
 
-&#x20;  ```bash
+3\. Download the dataset from UCI and place `Online Retail.xlsx` in the project folder
 
-&#x20;  pip install pandas openpyxl
+4\. Run: `py reorder.py`
+
+
+
+\## How It Works
+
+
+
+`reorder.py` loads the raw Excel file, filters it down to a set of target products, and cleans it (removes missing values and returns/negative quantities). It calculates each product's average daily sales over the full history, then applies the reorder point formula per product using data from `products.csv` (product-specific lead time, current stock, and safety stock).
+
+
+
+`test\_reorder.py` validates the reorder point calculation against known synthetic inputs.
+
+
+
+\## Roadmap
+
+
+
+\- \[x] Real transaction data cleaning and aggregation
+
+\- \[x] Reorder point calculation
+
+\- \[x] Readable report output
+
+\- \[x] Unit tests
+
+\- \[ ] Expand to more products
+
+\- \[ ] Demand forecasting (moving average / simple regression)
+
+\- \[ ] ABC analysis (classify products by sales volume)
+
+\- \[ ] Telegram alerts for products needing reorder
+
+
+
+\---
+
+
+
+Built as part of a self-directed Python learning project, applying real-world data analysis to inventory management.
 
