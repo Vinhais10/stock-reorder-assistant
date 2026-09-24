@@ -1,96 +1,16 @@
-\# Stock Reorder Assistant
+\# 📦 Stock Reorder Assistant
 
 
 
-A Python tool that calculates inventory reorder points using real retail transaction data, flagging products that need restocking based on historical demand, supplier lead time, and safety stock.
+A proof-of-concept inventory analysis tool that uses historical retail transaction data to support stock replenishment decisions.
 
 
 
-!\[Python](https://img.shields.io/badge/python-3.14-blue.svg)
-
-!\[Status](https://img.shields.io/badge/status-active-brightgreen.svg)
+This project explores how historical sales data can be transformed into simple inventory metrics such as average demand, safety stock and reorder points.
 
 
 
-\## Features
-
-
-
-\- Loads and cleans real transaction data (541,909 rows from the UCI "Online Retail" dataset)
-
-\- Calculates average daily demand per product from historical sales
-
-\- Computes the reorder point using the formula: `(avg daily sales × lead time) + safety stock`
-
-\- Flags products below their reorder point with a clear, readable report
-
-\- Unit tested with synthetic data to validate the calculation logic
-
-
-
-\## Data Source
-
-
-
-Sales data comes from the \[UCI Machine Learning Repository's "Online Retail" dataset](https://archive.ics.uci.edu/dataset/352/online+retail) — real transactions from a UK-based online retailer (2010–2011), anonymized for research use. Lead time and safety stock values are illustrative business parameters, since the original dataset doesn't include supplier information.
-
-
-
-\## Tech Stack
-
-
-
-\- \*\*Python 3.14\*\*
-
-\- \*\*pandas\*\* — data loading, cleaning, and aggregation
-
-
-
-\## Setup
-
-
-
-1\. Clone this repository
-
-2\. Install dependencies: `pip install pandas openpyxl`
-
-3\. Download the dataset from UCI and place `Online Retail.xlsx` in the project folder
-
-4\. Run: `py reorder.py`
-
-
-
-\## How It Works
-
-
-
-`reorder.py` loads the raw Excel file, filters it down to a set of target products, and cleans it (removes missing values and returns/negative quantities). It calculates each product's average daily sales over the full history, then applies the reorder point formula per product using data from `products.csv` (product-specific lead time, current stock, and safety stock).
-
-
-
-`test\_reorder.py` validates the reorder point calculation against known synthetic inputs.
-
-
-
-\## Roadmap
-
-
-
-\- \[x] Real transaction data cleaning and aggregation
-
-\- \[x] Reorder point calculation
-
-\- \[x] Readable report output
-
-\- \[x] Unit tests
-
-\- \[ ] Expand to more products
-
-\- \[ ] Demand forecasting (moving average / simple regression)
-
-\- \[ ] ABC analysis (classify products by sales volume)
-
-\- \[ ] Telegram alerts for products needing reorder
+The application includes an interactive Streamlit dashboard for exploring products, sales behaviour and reorder recommendations.
 
 
 
@@ -98,5 +18,365 @@ Sales data comes from the \[UCI Machine Learning Repository's "Online Retail" da
 
 
 
-Built as part of a self-directed Python learning project, applying real-world data analysis to inventory management.
+\## Business Problem
+
+
+
+Businesses need to determine:
+
+
+
+\* When should a product be reordered?
+
+\* How much stock should be maintained?
+
+\* Which products are at risk of stockout?
+
+
+
+Poor inventory decisions can lead to:
+
+
+
+\* Lost sales
+
+\* Excess inventory
+
+\* Higher storage costs
+
+\* Operational inefficiencies
+
+
+
+This project demonstrates a simple data-driven approach to support inventory replenishment decisions.
+
+
+
+\---
+
+
+
+\## Dataset
+
+
+
+This project uses the \*\*Online Retail Dataset\*\* from the UCI Machine Learning Repository:
+
+
+
+\* 541,909 retail transactions
+
+\* Real sales data
+
+\* Product information
+
+\* Transaction dates
+
+\* Quantities sold
+
+\* Customer and country information
+
+
+
+Dataset source:
+
+
+
+https://archive.ics.uci.edu/dataset/352/online+retail
+
+
+
+\---
+
+
+
+\## Features
+
+
+
+\### Data Exploration
+
+
+
+\* Load and analyse retail transaction data
+
+\* Identify top-selling products
+
+\* Explore sales behaviour
+
+
+
+\### Inventory Analytics
+
+
+
+\* Average daily sales calculation
+
+\* Reorder point calculation
+
+\* Safety stock support
+
+\* Reorder decision logic
+
+
+
+\### Interactive Dashboard
+
+
+
+\* Inventory overview
+
+\* Product status
+
+\* Reorder recommendations
+
+\* Sales analysis
+
+
+
+\### Quality
+
+
+
+\* Automated tests
+
+\* Modular project structure
+
+\* Reproducible workflow
+
+
+
+\---
+
+
+
+\## Reorder Model
+
+
+
+The current proof of concept uses a simple reorder point approach:
+
+
+
+Reorder Point =
+
+
+
+Average Daily Sales × Lead Time + Safety Stock
+
+
+
+A reorder recommendation is generated when:
+
+
+
+Current Stock ≤ Reorder Point
+
+
+
+\---
+
+
+
+\## Project Structure
+
+
+
+```text
+
+stock-reorder-assistant/
+
+│
+
+├── app.py
+
+├── reorder.py
+
+├── explore.py
+
+│
+
+├── data/
+
+│   ├── products.csv
+
+│   └── sales\_history.csv
+
+│
+
+├── tests/
+
+│   └── test\_reorder.py
+
+│
+
+├── README.md
+
+├── requirements.txt
+
+└── .gitignore
+
+```
+
+
+
+\---
+
+
+
+\## Technologies
+
+
+
+\* Python
+
+\* pandas
+
+\* Streamlit
+
+\* openpyxl
+
+\* pytest
+
+\* Git
+
+\* GitHub
+
+
+
+\---
+
+
+
+\## Installation
+
+
+
+Clone the repository:
+
+
+
+```bash
+
+git clone https://github.com/Vinhais10/stock-reorder-assistant.git
+
+cd stock-reorder-assistant
+
+```
+
+
+
+Install dependencies:
+
+
+
+```bash
+
+pip install -r requirements.txt
+
+```
+
+
+
+\---
+
+
+
+\## Running the Project
+
+
+
+Run the Streamlit dashboard:
+
+
+
+```bash
+
+streamlit run app.py
+
+```
+
+
+
+Open:
+
+
+
+```text
+
+http://localhost:8501
+
+```
+
+
+
+\---
+
+
+
+\## Running Tests
+
+
+
+```bash
+
+pytest
+
+```
+
+
+
+\---
+
+
+
+\## Current Status
+
+
+
+Proof of Concept (PoC)
+
+
+
+The current implementation focuses on demonstrating inventory replenishment concepts using historical retail data and a simple reorder point model.
+
+
+
+Future improvements may include:
+
+
+
+\* Dynamic safety stock
+
+\* Demand forecasting
+
+\* Supplier lead-time modelling
+
+\* Database integration
+
+\* Exportable reports
+
+\* Enhanced visualisations
+
+
+
+\---
+
+
+
+\## Author
+
+
+
+Diogo Vinhais
+
+
+
+Management Informatics @ ISCAC
+
+
+
+Python • Data Analytics • Process Automation
+
+
 
