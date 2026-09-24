@@ -1,4 +1,4 @@
-\# 📦 Stock Reorder Assistant
+# \# 📦 **Stock Reorder Assistant**
 
 
 
@@ -6,53 +6,53 @@ A proof-of-concept inventory analysis tool that uses historical retail transacti
 
 
 
-The project explores how historical sales data can be transformed into practical inventory metrics and used to identify products that may require replenishment.
-
-
-
 \---
 
 
 
-\## 📌 Business Problem
+##### \## 📌 **Business Problem**
 
 
 
-Inventory management requires businesses to balance product availability with the cost of holding excess stock.
-
-
-
-Key questions include:
+Businesses need to determine:
 
 
 
 \- When should a product be reordered?
 
-\- Which products may be at risk of stockout?
+\- How much stock should be maintained?
 
-\- How can historical demand support replenishment decisions?
-
-\- How can inventory decisions be made more consistently using data?
+\- Which products are at risk of stockout?
 
 
 
-This project demonstrates a simple data-driven approach to inventory replenishment using historical retail transaction data.
+Poor inventory decisions can lead to:
+
+
+
+\- Lost sales
+
+\- Excess inventory
+
+\- Higher storage costs
+
+\- Operational inefficiencies
+
+
+
+This project demonstrates a simple data-driven approach to support inventory replenishment decisions.
 
 
 
 \---
 
+##### 
 
-
-\## 📊 Dataset
-
-
-
-This project uses the \*\*Online Retail Dataset\*\* from the \*\*UCI Machine Learning Repository\*\*.
+##### **## 📊 Dataset**
 
 
 
-The dataset contains real-world retail transaction data from an online retail business.
+This project uses the \*\*Online Retail Dataset\*\* from the UCI Machine Learning Repository.
 
 
 
@@ -60,11 +60,11 @@ The dataset contains real-world retail transaction data from an online retail bu
 
 
 
-\- \*\*541,909\*\* transactions
+\- \*\*541,909\*\* retail transactions
 
-\- \*\*8\*\* original attributes
+\- Real-world retail transaction data
 
-\- Product codes and descriptions
+\- Product information
 
 \- Transaction dates
 
@@ -78,11 +78,7 @@ The dataset contains real-world retail transaction data from an online retail bu
 
 
 
-\### Source
-
-
-
-\*\*UCI Machine Learning Repository — Online Retail Dataset\*\*
+Dataset source:
 
 
 
@@ -94,7 +90,7 @@ https://archive.ics.uci.edu/dataset/352/online+retail
 
 
 
-\## 🚀 Features
+##### **## 🚀 Features**
 
 
 
@@ -102,81 +98,67 @@ https://archive.ics.uci.edu/dataset/352/online+retail
 
 
 
-\- Load and analyse historical retail transactions
-
-\- Explore product-level sales data
+\- Analyse historical retail transactions
 
 \- Identify top-selling products
 
-\- Aggregate sales quantities by product
+\- Explore sales behaviour
 
-\- Prepare historical sales data for inventory analysis
+\- Aggregate sales by product
 
 
 
-\### 📦 Inventory Analytics
+##### **### 📦 Inventory Analytics**
 
 
 
 \- Calculate average daily demand
 
-\- Estimate reorder points
+\- Calculate reorder points
 
 \- Support safety stock calculations
 
-\- Compare current stock against reorder thresholds
-
 \- Identify products requiring replenishment
 
+##### 
 
-
-\### 📈 Interactive Dashboard
-
-
-
-The project includes a \*\*Streamlit dashboard\*\* for interactive inventory analysis.
+##### **### 📈 Interactive Dashboard**
 
 
 
-The dashboard provides:
+The project includes a Streamlit dashboard for exploring:
 
 
 
-\- Inventory overview
+\- Inventory status
 
-\- Product-level information
+\- Product information
 
-\- Current stock status
-
-\- Reorder status
-
-\- Sales analysis
+\- Sales behaviour
 
 \- Reorder recommendations
 
 
 
-\### 🧪 Testing
+##### **### 🧪 Testing**
 
 
 
-The core reorder logic is supported by automated tests using \*\*pytest\*\*.
+\- Automated tests for the reorder logic
 
-
-
-The goal is to ensure that the business rules used by the application behave as expected.
+\- Validation of core business rules
 
 
 
 \---
 
+##### 
+
+##### **## 🧮 Reorder Model**
 
 
-\## 🧮 Reorder Model
 
-
-
-The current proof of concept uses a simple \*\*Reorder Point\*\* model.
+The current proof of concept uses a simple reorder point model.
 
 
 
@@ -190,6 +172,8 @@ Reorder Point = Average Daily Sales × Lead Time + Safety Stock
 
 
 
+
+
 A product is flagged for replenishment when:
 
 
@@ -198,267 +182,189 @@ Current Stock ≤ Reorder Point
 
 
 
-This provides a simple and transparent rule for identifying products that may require a new order.
+This approach provides a simple and transparent way of supporting inventory decisions based on historical demand.
 
+##### 
 
+##### 🖥️ Application
 
-The model is intentionally kept simple at this stage, as the main objective of the project is to demonstrate the connection between historical sales data, inventory analysis and business decision support.
 
 
+The project includes an interactive Streamlit dashboard.
 
-🖥️ Application
 
 
+The dashboard allows users to explore product-level inventory information and identify products that may require replenishment.
 
-The project includes an interactive Streamlit dashboard designed to make the analysis easier to explore.
 
 
+📸 Screenshots will be added as the application develops.
 
-The application allows users to move from raw sales data to product-level inventory insights.
+##### 
 
+##### **🗂️ Project Structure**
 
+**stock-reorder-assistant/**
 
-Dashboard Areas
+**│**
 
-Dashboard — Overview of the inventory
+**├── app.py**
 
-Inventory — Product and stock information
+**├── reorder.py**
 
-Reorder Analysis — Reorder point and replenishment logic
+**├── explore.py**
 
-Sales Analysis — Historical sales behaviour
+**│**
 
-Reorder Recommendations — Products identified for replenishment
+**├── data/**
 
+**│   ├── products.csv**
 
+**│   └── sales\_history.csv**
 
-📸 Application screenshots will be added as the dashboard develops.
+**│**
 
+**├── tests/**
 
+**│   └── test\_reorder.py**
 
-🗂️ Project Structure
+**│**
 
-stock-reorder-assistant/
+**├── README.md**
 
-│
+**├── requirements.txt**
 
-├── app.py
+**└── .gitignore**
 
-├── reorder.py
+##### 
 
-├── explore.py
+##### **🛠️ Technologies**
 
-│
+**Technology	Purpose**
 
-├── data/
+**Python	Core programming language**
 
-│   ├── products.csv
+**pandas	Data analysis and transformation**
 
-│   └── sales\_history.csv
+**Streamlit	Interactive dashboard**
 
-│
+**openpyxl	Excel data processing**
 
-├── tests/
+**pytest	Automated testing**
 
-│   └── test\_reorder.py
+**Git	Version control**
 
-│
+**GitHub	Repository and project documentation**
 
-├── README.md
 
-├── requirements.txt
 
-└── .gitignore
+##### **⚙️ Installation**
 
-🛠️ Technologies
 
-Technology	Purpose
 
-Python	Core programming language
+**Clone the repository:**
 
-pandas	Data analysis and data transformation
 
-Streamlit	Interactive dashboard
 
-openpyxl	Excel data processing
+**git clone https://github.com/Vinhais10/stock-reorder-assistant.git**
 
-pytest	Automated testing
+**cd stock-reorder-assistant**
 
-Git	Version control
 
-GitHub	Source control and project documentation
 
-⚙️ Installation
+**Install the required dependencies:**
 
-1\. Clone the repository
 
-git clone https://github.com/Vinhais10/stock-reorder-assistant.git
 
-2\. Navigate to the project directory
+**pip install -r requirements.txt**
 
-cd stock-reorder-assistant
+##### 
 
-3\. Install the required dependencies
+##### **▶️ Running the Application**
 
-pip install -r requirements.txt
 
-▶️ Running the Application
 
+**Start the Streamlit application:**
 
 
-Start the Streamlit dashboard with:
 
+**streamlit run app.py**
 
 
-streamlit run app.py
 
+**Then open:**
 
 
-The application will normally be available at:
 
+**http://localhost:8501**
 
 
-http://localhost:8501
 
-🧪 Running Tests
+##### **🧪 Running Tests**
 
 
 
-Run the automated test suite with:
+**Run the test suite with:**
 
 
 
-pytest
+**pytest**
 
-🔄 Project Workflow
 
 
+##### **📌 Current Status**
 
-The overall workflow can be summarised as:
 
 
+**Proof of Concept (PoC)**
 
-Historical Retail Data
 
-&#x20;       ↓
 
-Data Exploration
+**The current version focuses on demonstrating how historical sales data can be used to support inventory replenishment decisions.**
 
-&#x20;       ↓
 
-Sales Analysis
 
-&#x20;       ↓
+**The project is still under development.**
 
-Demand Estimation
 
-&#x20;       ↓
 
-Inventory Metrics
+##### **🔮 Future Improvements**
 
-&#x20;       ↓
 
-Reorder Point
 
-&#x20;       ↓
+**Possible future improvements include:**
 
-Reorder Recommendation
 
-&#x20;       ↓
 
-Streamlit Dashboard
+&#x20;**Dynamic safety stock calculation**
 
+&#x20;**Demand forecasting**
 
+&#x20;**Supplier lead-time modelling**
 
-This structure separates data analysis, business logic and presentation, making the project easier to extend as new features are introduced.
+&#x20;**Product-level demand trends**
 
+&#x20;**Improved dashboard visualisations**
 
+&#x20;**Exportable inventory reports**
 
-📌 Current Status
+&#x20;**Database integration**
 
+&#x20;**More extensive automated testing**
 
+##### 
 
-Proof of Concept (PoC)
+##### **👨‍💻 Author**
 
 
 
-The current version focuses on demonstrating how historical retail transaction data can be used to support inventory replenishment decisions.
+**Diogo Vinhais**
 
 
 
-The application is still under development.
+**Management Informatics @ ISCAC**
 
 
 
-The current implementation prioritises:
-
-
-
-Clear business logic
-
-Real-world transaction data
-
-Simple and explainable inventory calculations
-
-Interactive data exploration
-
-Automated testing
-
-🔮 Future Improvements
-
-
-
-Potential future improvements include:
-
-
-
-&#x20;Dynamic safety stock calculation
-
-&#x20;Demand forecasting
-
-&#x20;Supplier lead-time modelling
-
-&#x20;Product-level demand trends
-
-&#x20;Seasonal demand analysis
-
-&#x20;Improved dashboard visualisations
-
-&#x20;Exportable inventory reports
-
-&#x20;Database integration
-
-&#x20;More extensive automated testing
-
-&#x20;Improved reorder quantity recommendations
-
-⚠️ Disclaimer
-
-
-
-This project is an independent proof of concept created for educational and portfolio purposes.
-
-
-
-The inventory recommendations generated by the application are based on simplified assumptions and should not be considered production-ready inventory management decisions.
-
-
-
-The dataset is provided by the UCI Machine Learning Repository and is used for analytical and educational purposes.
-
-
-
-👨‍💻 Author
-
-
-
-Diogo Vinhais
-
-
-
-Management Informatics @ ISCAC
-
-
-
-Python • Data Analytics • Process Automation
+**Python • Data Analytics • Process Automation**
 
