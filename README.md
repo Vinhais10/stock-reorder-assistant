@@ -1,17 +1,25 @@
-# Ã°Å¸â€œÂ¦ Stock Reorder Assistant
+# 📦 Stock Reorder Assistant
 
 An interactive inventory management tool that calculates reorder points using real retail transaction data, flagging products that need restocking based on historical demand, supplier lead time, and safety stock.
 
 Includes a **Streamlit dashboard** for visual, at-a-glance decision-making and a **conversational AI agent** that answers inventory questions in natural language.
 
-**ðŸ”— [Try it live](https://stock-reorder-assistant-vinhais10.streamlit.app)**
+**🔗 [Try it live](https://stock-reorder-assistant-vinhais10.streamlit.app)**
+
+### Dashboard
+
+![Dashboard](dashboard.png)
+
+### Conversational Agent
+
+![Agent](agent.png)
 
 ![Python](https://img.shields.io/badge/python-3.14-blue.svg)
 ![Streamlit](https://img.shields.io/badge/streamlit-dashboard-red.svg)
 ![Groq](https://img.shields.io/badge/agent-Groq%20%2B%20Llama%203.3-orange.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 
-## Ã°Å¸â€œÅ’ What This Does
+## 📌 What This Does
 
 Retailers need to know when to reorder a product before it runs out, and how much to order, based on how fast it actually sells. This tool answers that question using a well-known supply chain formula, applied to real e-commerce transaction data:
 
@@ -19,7 +27,7 @@ Retailers need to know when to reorder a product before it runs out, and how muc
 
 If a product's current stock falls below its reorder point, it's flagged as needing restock.
 
-## Ã¢Å“Â¨ Features
+## ✨ Features
 
 - Loads and cleans 541,909 real transactions from the UCI "Online Retail" dataset
 - Calculates average daily demand per product from historical sales
@@ -29,13 +37,13 @@ If a product's current stock falls below its reorder point, it's flagged as need
 - Command-line report as an alternative to the dashboard
 - Unit tested against synthetic data with known expected results
 
-## Ã°Å¸â€œÅ  Data Source
+## 📊 Data Source
 
 Sales data comes from the UCI Machine Learning Repository's "Online Retail" dataset (https://archive.ics.uci.edu/dataset/352/online+retail) - real, anonymized transactions from a UK-based online retailer (2010-2011).
 
 Lead time and safety stock values are illustrative business parameters (the raw dataset has no supplier data), applied consistently to demonstrate the reorder logic.
 
-## Ã°Å¸â€ºÂ Ã¯Â¸Â Tech Stack
+## 🛠️ Tech Stack
 
 - Python 3.14 - Core language
 - pandas - Data loading, cleaning, aggregation
@@ -45,7 +53,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 - Groq API - LLM for the conversational agent
 - python-dotenv - Environment variable management
 
-## Ã°Å¸Å¡â‚¬ Setup
+## 🚀 Setup
 
 1. Clone this repository:
 
@@ -72,23 +80,23 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 
     py reorder.py
 
-## Ã°Å¸â€œÂ Project Structure
+## 📁 Project Structure
 
     stock-reorder-assistant/
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app.py                 # Streamlit dashboard + agent UI
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ reorder.py             # Core logic: data loading, cleaning, calculations
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ agent.py               # Conversational AI agent (Groq + Llama 3.3)
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ agent_tools.py         # Tools the agent can call (wraps reorder.py)
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_reorder.py        # Unit tests for reorder logic
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_agent_tools.py    # Sanity tests for agent tools
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ products.csv           # Product master data (lead time, stock, safety stock)
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ sales_history.csv      # Sample synthetic sales data (used for early testing)
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ requirements.txt
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ .env.example           # Template for API key
-    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ .gitignore
-    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ README.md
+    ├── app.py                 # Streamlit dashboard + agent UI
+    ├── reorder.py             # Core logic: data loading, cleaning, calculations
+    ├── agent.py               # Conversational AI agent (Groq + Llama 3.3)
+    ├── agent_tools.py         # Tools the agent can call (wraps reorder.py)
+    ├── test_reorder.py        # Unit tests for reorder logic
+    ├── test_agent_tools.py    # Sanity tests for agent tools
+    ├── products.csv           # Product master data (lead time, stock, safety stock)
+    ├── sales_history.csv      # Sample synthetic sales data (used for early testing)
+    ├── requirements.txt
+    ├── .env.example           # Template for API key
+    ├── .gitignore
+    └── README.md
 
-## Ã°Å¸Â§Â  How It Works
+## 🧠 How It Works
 
 1. reorder.py loads the raw Excel file, filters it to a set of target products, and cleans it - removing missing values and returns (negative quantities).
 2. It calculates each product's average daily sales over the full transaction history.
@@ -96,7 +104,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 4. app.py reuses this same logic to power a live Streamlit dashboard - no duplicated code between the CLI and the web app.
 5. test_reorder.py validates the reorder point calculation against known synthetic inputs, independent of the real dataset.
 
-## Ã°Å¸Â¤â€“ Conversational Agent
+## 🤖 Conversational Agent
 
 The project includes an AI agent that answers inventory questions in natural language, using real data from reorder.py as tools.
 
@@ -128,7 +136,7 @@ Available tools:
 - get_sales_trend(product_id, days) - recent sales trend
 - simulate_scenario(product_id, new_lead_time) - recalculate with a different lead time
 
-## Ã°Å¸â€œÅ  Dashboard
+## 📊 Dashboard
 
 The app also includes a polished dashboard with:
 
@@ -137,7 +145,7 @@ The app also includes a polished dashboard with:
 - Per-product cards with progress bars and status badges
 - Toggle to filter only products that need reordering
 
-## Ã°Å¸â€”ÂºÃ¯Â¸Â Roadmap
+## 🗺️ Roadmap
 
 - [x] Real transaction data cleaning and aggregation
 - [x] Reorder point calculation
@@ -146,14 +154,14 @@ The app also includes a polished dashboard with:
 - [x] Interactive Streamlit dashboard
 - [x] Conversational AI agent with tool calling
 - [x] Polished dark dashboard UI
+- [x] Deploy to Streamlit Cloud
 - [ ] Expand to more products
 - [ ] Demand forecasting (moving average / simple regression)
 - [ ] ABC analysis (classify products by sales volume)
 - [ ] Telegram alerts for products needing reorder
-- [ ] Deploy to Streamlit Cloud
 - [ ] Modular project structure (data/, tests/ folders)
 
-## Ã°Å¸â€œÂ Note
+## 📝 Note
 
 This project uses a subset (4 products) of the full 541,909-row dataset to keep the demo focused and fast. The underlying logic scales to any number of products.
 
