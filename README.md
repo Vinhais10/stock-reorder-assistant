@@ -71,15 +71,16 @@ python reorder.py
 
 # 📁 Project Structure
 
+```text
 stock-reorder-assistant/
 ├── app.py                 # Streamlit dashboard
-├── reorder.py              # Core logic: data loading, cleaning, calculations
-├── test_reorder.py         # Unit tests
-├── products.csv            # Product master data (lead time, stock, safety stock)
-├── sales_history.csv       # Sample synthetic sales data (used for early testing)
+├── reorder.py             # Core logic: data loading, cleaning, calculations
+├── test_reorder.py        # Unit tests
+├── products.csv           # Product master data (lead time, stock, safety stock)
+├── sales_history.csv      # Sample synthetic sales data (used for early testing)
 ├── requirements.txt
 └── README.md
-
+````
 ---
 
 # 🧠 How It Works
