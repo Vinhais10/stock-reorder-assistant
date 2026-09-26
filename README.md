@@ -1,4 +1,4 @@
-﻿# Stock Reorder Assistant
+# 📦 Stock Reorder Assistant
 
 An interactive inventory management tool that calculates reorder points using real retail transaction data, flagging products that need restocking based on historical demand, supplier lead time, and safety stock.
 
@@ -9,7 +9,7 @@ Includes a **Streamlit dashboard** for visual, at-a-glance decision-making and a
 ![Groq](https://img.shields.io/badge/agent-Groq%20%2B%20Llama%203.3-orange.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 
-## What This Does
+## 📌 What This Does
 
 Retailers need to know when to reorder a product before it runs out, and how much to order, based on how fast it actually sells. This tool answers that question using a well-known supply chain formula, applied to real e-commerce transaction data:
 
@@ -17,7 +17,7 @@ Retailers need to know when to reorder a product before it runs out, and how muc
 
 If a product's current stock falls below its reorder point, it's flagged as needing restock.
 
-## Features
+## ✨ Features
 
 - Loads and cleans 541,909 real transactions from the UCI "Online Retail" dataset
 - Calculates average daily demand per product from historical sales
@@ -27,13 +27,13 @@ If a product's current stock falls below its reorder point, it's flagged as need
 - Command-line report as an alternative to the dashboard
 - Unit tested against synthetic data with known expected results
 
-## Data Source
+## 📊 Data Source
 
 Sales data comes from the UCI Machine Learning Repository's "Online Retail" dataset (https://archive.ics.uci.edu/dataset/352/online+retail) - real, anonymized transactions from a UK-based online retailer (2010-2011).
 
 Lead time and safety stock values are illustrative business parameters (the raw dataset has no supplier data), applied consistently to demonstrate the reorder logic.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - Python 3.14 - Core language
 - pandas - Data loading, cleaning, aggregation
@@ -43,7 +43,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 - Groq API - LLM for the conversational agent
 - python-dotenv - Environment variable management
 
-## Setup
+## 🚀 Setup
 
 1. Clone this repository:
 
@@ -70,7 +70,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 
     py reorder.py
 
-## Project Structure
+## 📁 Project Structure
 
     stock-reorder-assistant/
     ├── app.py                 # Streamlit dashboard + agent UI
@@ -86,7 +86,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
     ├── .gitignore
     └── README.md
 
-## How It Works
+## 🧠 How It Works
 
 1. reorder.py loads the raw Excel file, filters it to a set of target products, and cleans it - removing missing values and returns (negative quantities).
 2. It calculates each product's average daily sales over the full transaction history.
@@ -94,7 +94,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
 4. app.py reuses this same logic to power a live Streamlit dashboard - no duplicated code between the CLI and the web app.
 5. test_reorder.py validates the reorder point calculation against known synthetic inputs, independent of the real dataset.
 
-## Conversational Agent
+## 🤖 Conversational Agent
 
 The project includes an AI agent that answers inventory questions in natural language, using real data from reorder.py as tools.
 
@@ -126,7 +126,7 @@ Available tools:
 - get_sales_trend(product_id, days) - recent sales trend
 - simulate_scenario(product_id, new_lead_time) - recalculate with a different lead time
 
-## Dashboard
+## 📊 Dashboard
 
 The app also includes a polished dashboard with:
 
@@ -135,7 +135,7 @@ The app also includes a polished dashboard with:
 - Per-product cards with progress bars and status badges
 - Toggle to filter only products that need reordering
 
-## Roadmap
+## 🗺️ Roadmap
 
 - [x] Real transaction data cleaning and aggregation
 - [x] Reorder point calculation
@@ -151,7 +151,7 @@ The app also includes a polished dashboard with:
 - [ ] Deploy to Streamlit Cloud
 - [ ] Modular project structure (data/, tests/ folders)
 
-## Note
+## 📝 Note
 
 This project uses a subset (4 products) of the full 541,909-row dataset to keep the demo focused and fast. The underlying logic scales to any number of products.
 
