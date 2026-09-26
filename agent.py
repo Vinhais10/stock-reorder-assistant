@@ -29,6 +29,7 @@ def _get_groq_key():
 
 
 client = Groq(api_key=_get_groq_key())
+MODEL = "openai/gpt-oss-120b"
 
 TOOLS_SCHEMA = [
     {
