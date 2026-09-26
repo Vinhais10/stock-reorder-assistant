@@ -1,10 +1,14 @@
-import pandas as pd
+﻿import pandas as pd
 
 TARGET_PRODUCTS = ['85123A', '84879', '21212', '22616']
 
 
 def load_sales_data():
-    df = pd.read_excel('Online Retail.xlsx')
+    import os
+    if os.path.exists('sales_data_filtered.csv'):
+        df = pd.read_csv('sales_data_filtered.csv')
+    else:
+        df = pd.read_excel('Online Retail.xlsx')
     df['StockCode'] = df['StockCode'].astype(str)
     df = df[df['StockCode'].isin(TARGET_PRODUCTS)]
     df = df.dropna(subset=['Quantity', 'InvoiceDate'])
@@ -32,7 +36,7 @@ def print_full_report(result):
     print("INVENTORY REORDER REPORT")
     print("=" * 50)
     for _, row in result.iterrows():
-        status = "⚠️  REORDER NEEDED" if row['needs_reorder'] else "✅ OK"
+        status = "âš ï¸  REORDER NEEDED" if row['needs_reorder'] else "âœ… OK"
         print(f"\n{row['product_name']} ({row['product_id']})")
         print(f"  Current stock: {row['current_stock']}")
         print(f"  Reorder point: {row['reorder_point']:.0f}")
@@ -48,7 +52,7 @@ def print_product_detail(result):
         return
 
     row = match.iloc[0]
-    status = "⚠️  REORDER NEEDED" if row['needs_reorder'] else "✅ OK"
+    status = "âš ï¸  REORDER NEEDED" if row['needs_reorder'] else "âœ… OK"
     print(f"\n{row['product_name']} ({row['product_id']})")
     print(f"  Average daily sales: {row['avg_daily_sales']:.1f}")
     print(f"  Current stock: {row['current_stock']}")

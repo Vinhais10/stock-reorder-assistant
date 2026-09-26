@@ -15,8 +15,20 @@ from agent_tools import TOOLS
 
 load_dotenv()
 
-client = Groq(api_key=os.environ["GROQ_API_KEY"])
-MODEL = "openai/gpt-oss-120b"
+
+def _get_groq_key():
+    """Read GROQ_API_KEY from .env locally, or Streamlit secrets in the cloud."""
+    key = os.environ.get("GROQ_API_KEY")
+    if key:
+        return key
+    try:
+        import streamlit as st
+        return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        raise RuntimeError("GROQ_API_KEY not found in .env or Streamlit secrets")
+
+
+client = Groq(api_key=_get_groq_key())
 
 TOOLS_SCHEMA = [
     {
@@ -158,3 +170,4 @@ def chat_loop():
 
 if __name__ == "__main__":
     chat_loop()
+
