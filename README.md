@@ -8,11 +8,11 @@ Includes a **Streamlit dashboard** for visual, at-a-glance decision-making and a
 
 ### Dashboard
 
-![Dashboard](dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
 ### Conversational Agent
 
-![Agent](agent.png)
+![Agent](screenshots/agent.png)
 
 ![Python](https://img.shields.io/badge/python-3.14-blue.svg)
 ![Streamlit](https://img.shields.io/badge/streamlit-dashboard-red.svg)
@@ -85,7 +85,7 @@ Lead time and safety stock values are illustrative business parameters (the raw 
  stock-reorder-assistant/
  ├── app.py # Streamlit dashboard + agent UI
  ├── reorder.py # Core logic: data loading, cleaning, calculations
- ├── agent.py # Conversational AI agent (Groq + Llama 3.3)
+ ├── agent.py # Conversational AI agent (Groq + GPT-OSS 120B)
  ├── agent_tools.py # Tools the agent can call (wraps reorder.py)
  ├── test_reorder.py # Unit tests for reorder logic
  ├── test_agent_tools.py # Sanity tests for agent tools
@@ -126,7 +126,7 @@ The agent responds in the language of the question (English or Portuguese).
 
 ### How it works
 
-The agent uses **Groq** (Llama 3.3 70B) with **tool calling**. It never invents numbers - it calls Python functions from agent_tools.py, which reuse the existing logic in reorder.py.
+The agent uses **Groq** (GPT-OSS 120B) with **tool calling**. It never invents numbers - it calls Python functions from agent_tools.py, which reuse the existing logic in reorder.py.
 
 Available tools:
 
