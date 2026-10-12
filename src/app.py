@@ -1,4 +1,5 @@
-﻿import streamlit as st
+import streamlit as st
+from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 from reorder import load_sales_data, calculate_avg_daily_sales, calculate_reorder_points
@@ -69,7 +70,7 @@ st.markdown(
 @st.cache_data
 def get_results():
     sales = load_sales_data()
-    products = pd.read_csv("products.csv")
+    products = pd.read_csv(str(Path(__file__).parent.parent / "data" / "products.csv"))
     avg_daily_sales = calculate_avg_daily_sales(sales)
     return calculate_reorder_points(products, avg_daily_sales)
 

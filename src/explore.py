@@ -1,6 +1,7 @@
+from pathlib import Path
 import pandas as pd
 
-df = pd.read_excel('Online Retail.xlsx')
+df = pd.read_excel(Path(__file__).parent.parent / 'data' / 'Online Retail.xlsx')
 
 print(df.head())
 print()
