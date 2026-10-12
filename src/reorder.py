@@ -6,8 +6,8 @@ TARGET_PRODUCTS = ['85123A', '84879', '21212', '22616']
 
 def load_sales_data():
     import os
-    if os.path.exists('sales_data_filtered.csv'):
-        df = pd.read_csv('sales_data_filtered.csv')
+    if os.path.exists(str(Path(__file__).parent.parent / 'data' / 'sales_data_filtered.csv')):
+        df = pd.read_csv(str(Path(__file__).parent.parent / 'data' / 'sales_data_filtered.csv'))
     else:
         df = pd.read_excel(Path(__file__).parent.parent / 'data' / 'Online Retail.xlsx')
     df['StockCode'] = df['StockCode'].astype(str)
@@ -37,7 +37,7 @@ def print_full_report(result):
     print("INVENTORY REORDER REPORT")
     print("=" * 50)
     for _, row in result.iterrows():
-        status = "âš ï¸  REORDER NEEDED" if row['needs_reorder'] else "âœ… OK"
+        status = "Ã¢Å¡Â Ã¯Â¸Â  REORDER NEEDED" if row['needs_reorder'] else "Ã¢Å“â€¦ OK"
         print(f"\n{row['product_name']} ({row['product_id']})")
         print(f"  Current stock: {row['current_stock']}")
         print(f"  Reorder point: {row['reorder_point']:.0f}")
@@ -53,7 +53,7 @@ def print_product_detail(result):
         return
 
     row = match.iloc[0]
-    status = "âš ï¸  REORDER NEEDED" if row['needs_reorder'] else "âœ… OK"
+    status = "Ã¢Å¡Â Ã¯Â¸Â  REORDER NEEDED" if row['needs_reorder'] else "Ã¢Å“â€¦ OK"
     print(f"\n{row['product_name']} ({row['product_id']})")
     print(f"  Average daily sales: {row['avg_daily_sales']:.1f}")
     print(f"  Current stock: {row['current_stock']}")
@@ -70,7 +70,7 @@ def show_menu():
 
 if __name__ == "__main__":
     sales = load_sales_data()
-    products = pd.read_csv('products.csv')
+    products = pd.read_csv(str(Path(__file__).parent.parent / 'data' / 'products.csv'))
     avg_daily_sales = calculate_avg_daily_sales(sales)
     result = calculate_reorder_points(products, avg_daily_sales)
 
