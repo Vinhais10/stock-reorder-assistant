@@ -1,12 +1,17 @@
-﻿"""
+"""
 Stock Reorder Assistant - conversational agent.
 
-Uses Groq (Llama 3.3 70B) with tool calling to answer
+Uses Groq (GPT-OSS 120B) with tool calling to answer
 business questions about inventory in natural language.
+
+Supports English, Portuguese and Spanish.
+Keeps conversation memory (last N messages).
 """
 
 import json
 import os
+import re
+import time
 
 from dotenv import load_dotenv
 from groq import Groq
@@ -17,7 +22,6 @@ load_dotenv()
 
 
 def _get_groq_key():
-    """Read GROQ_API_KEY from .env locally, or Streamlit secrets in the cloud."""
     key = os.environ.get("GROQ_API_KEY")
     if key:
         return key
@@ -31,6 +35,10 @@ def _get_groq_key():
 client = Groq(api_key=_get_groq_key())
 MODEL = "openai/gpt-oss-120b"
 
+
+# ============================================================
+# TOOL SCHEMA
+# ============================================================
 TOOLS_SCHEMA = [
     {
         "type": "function",
@@ -98,21 +106,62 @@ TOOLS_SCHEMA = [
     },
 ]
 
-SYSTEM_PROMPT = """You are a stock reorder assistant.
+
+# ============================================================
+# LANGUAGE DETECTION
+# ============================================================
+def detect_language(text: str) -> str:
+    """Detect EN / PT / ES. Defaults to EN."""
+    try:
+        from langdetect import detect, DetectorFactory
+        DetectorFactory.seed = 0
+        lang = detect(text)
+        if lang in ("pt", "es", "en"):
+            return lang
+        if lang in ("ca", "gl"):
+            return "pt"
+        return "en"
+    except Exception:
+        return "en"
+
+
+# ============================================================
+# SYSTEM PROMPT
+# ============================================================
+SYSTEM_PROMPT = """You are a stock reorder assistant for a retail inventory system.
 
 You help users understand inventory data by calling tools.
-Always call tools to get real numbers - never invent data.
-When you answer, be clear and explain your reasoning briefly.
-Format numbers cleanly (e.g. 123.4 not 123.40000001).
+ALWAYS call tools to get real numbers - never invent data.
+
+LANGUAGE RULES (highest priority):
+- Detect the language of the user's question.
+- If the question is in English, answer in English.
+- If the question is in Portuguese, answer in Portuguese (pt-PT).
+- If the question is in Spanish, answer in Spanish (es-ES).
+- If mixed or unclear, default to English.
+
+STYLE:
+- Clear, professional, concise.
+- Explain your reasoning briefly.
+- Format numbers cleanly (e.g. 123.4 not 123.40000001).
 """
 
 
-def run_agent(user_input, max_steps=6, verbose=True):
+# ============================================================
+# RUN AGENT (tool-calling loop) - retained for compatibility
+# ============================================================
+def run_agent(user_input, max_steps=6, verbose=True, history=None):
     """Run the ReAct loop until the model produces a final answer."""
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": user_input},
-    ]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+
+    if history:
+        for h in history[-6:]:
+            role = h.get("role", "user")
+            content = h.get("content", "")
+            if role in ("user", "assistant") and content:
+                messages.append({"role": role, "content": content})
+
+    messages.append({"role": "user", "content": user_input})
 
     for step in range(max_steps):
         response = client.chat.completions.create(
@@ -149,9 +198,96 @@ def run_agent(user_input, max_steps=6, verbose=True):
     return "I reached the maximum number of steps without a final answer."
 
 
+# ============================================================
+# ASK - main entry point (returns rich dict)
+# ============================================================
+def ask(question: str, verbose: bool = False, history: list = None) -> dict:
+    """Main entry point. Returns a dict compatible with the Inditex agent."""
+    start = time.time()
+    lang = detect_language(question)
+
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+
+    if history:
+        for h in history[-6:]:
+            role = h.get("role", "user")
+            content = h.get("content", "")
+            if role in ("user", "assistant") and content:
+                messages.append({"role": role, "content": content})
+
+    messages.append({"role": "user", "content": question})
+
+    tools_used = []
+    max_steps = 6
+
+    for step in range(max_steps):
+        try:
+            response = client.chat.completions.create(
+                model=MODEL,
+                messages=messages,
+                tools=TOOLS_SCHEMA,
+                tool_choice="auto",
+            )
+        except Exception as e:
+            return {
+                "explanation": f"Error: {e}",
+                "error": str(e),
+                "language": lang,
+                "tool_calls": [],
+                "steps": step + 1,
+                "duration_ms": int((time.time() - start) * 1000),
+            }
+
+        msg = response.choices[0].message
+
+        if not msg.tool_calls:
+            duration_ms = int((time.time() - start) * 1000)
+            return {
+                "explanation": msg.content or "",
+                "language": lang,
+                "tool_calls": tools_used,
+                "steps": step + 1,
+                "duration_ms": duration_ms,
+            }
+
+        messages.append(msg)
+
+        for call in msg.tool_calls:
+            name = call.function.name
+            args = json.loads(call.function.arguments) if call.function.arguments else {}
+
+            try:
+                result = TOOLS[name](**args)
+            except Exception as e:
+                result = {"error": str(e)}
+
+            tools_used.append({
+                "name": name,
+                "args": args,
+                "result": result,
+            })
+
+            messages.append({
+                "role": "tool",
+                "tool_call_id": call.id,
+                "content": json.dumps(result),
+            })
+
+    return {
+        "explanation": "I reached the maximum number of steps without a final answer.",
+        "language": lang,
+        "tool_calls": tools_used,
+        "steps": max_steps,
+        "duration_ms": int((time.time() - start) * 1000),
+    }
+
+
+# ============================================================
+# CLI (interactive) - optional
+# ============================================================
 def chat_loop():
-    """Interactive conversation."""
     print("Stock Reorder Agent (type 'exit' to quit)\n")
+    history = []
     while True:
         try:
             user = input("You: ").strip()
@@ -165,10 +301,12 @@ def chat_loop():
         if not user:
             continue
 
-        answer = run_agent(user)
-        print(f"\nAgent: {answer}\n")
+        result = ask(user, history=history)
+        print(f"\nAgent: {result['explanation']}\n")
+
+        history.append({"role": "user", "content": user})
+        history.append({"role": "assistant", "content": result["explanation"]})
 
 
 if __name__ == "__main__":
     chat_loop()
-
