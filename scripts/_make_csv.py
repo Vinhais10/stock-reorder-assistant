@@ -1,4 +1,5 @@
-﻿import pandas as pd
+from pathlib import Path
+import pandas as pd
 from reorder import load_sales_data
 df = load_sales_data()
 print("Linhas:", len(df))

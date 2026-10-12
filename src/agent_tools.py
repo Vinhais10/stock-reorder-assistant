@@ -1,4 +1,4 @@
-﻿"""
+"""
 Tools that the AI agent can call.
 
 Each tool wraps existing logic from reorder.py so the agent
@@ -19,7 +19,7 @@ def _get_result_df():
     """Load data once, reuse everywhere."""
     if "result" not in _cache:
         sales = load_sales_data()
-        products = pd.read_csv("products.csv")
+        products = pd.read_csv(str(Path(__file__).resolve().parent.parent / "data" / "products.csv"))
         avg = calculate_avg_daily_sales(sales)
         _cache["result"] = calculate_reorder_points(products, avg)
     return _cache["result"]
