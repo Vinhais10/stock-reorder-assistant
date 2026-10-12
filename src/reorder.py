@@ -1,4 +1,5 @@
-﻿import pandas as pd
+from pathlib import Path
+import pandas as pd
 
 TARGET_PRODUCTS = ['85123A', '84879', '21212', '22616']
 
@@ -8,7 +9,7 @@ def load_sales_data():
     if os.path.exists('sales_data_filtered.csv'):
         df = pd.read_csv('sales_data_filtered.csv')
     else:
-        df = pd.read_excel('Online Retail.xlsx')
+        df = pd.read_excel(Path(__file__).parent.parent / 'data' / 'Online Retail.xlsx')
     df['StockCode'] = df['StockCode'].astype(str)
     df = df[df['StockCode'].isin(TARGET_PRODUCTS)]
     df = df.dropna(subset=['Quantity', 'InvoiceDate'])
